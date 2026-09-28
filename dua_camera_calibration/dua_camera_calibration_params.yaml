@@ -1,0 +1,314 @@
+params:
+  board.cols:
+    type: integer
+    default_value: 8
+    min_value: 2
+    max_value: 64
+    step: 1
+    description: "Board columns: inner corners per row (chessboard) or squares per row (ChArUco)."
+    constraints: "Chessboard: count INNER corners (squares - 1). ChArUco: count squares."
+    read_only: true
+
+  board.detector:
+    type: string
+    default_value: "classic"
+    description: "Chessboard corner detector."
+    constraints: "'classic' (fast, downscaled detection + full-res refinement) or 'sb' (findChessboardCornersSB, slower). Ignored for ChArUco."
+    read_only: true
+
+  board.dictionary:
+    type: string
+    default_value: "DICT_5X5_100"
+    description: "ArUco dictionary of the ChArUco markers."
+    constraints: "A cv2.aruco DICT_* name."
+    read_only: true
+
+  board.legacy_pattern:
+    type: bool
+    default_value: false
+    description: "ChArUco board generated with OpenCV < 4.6 (legacy layout for even row counts)."
+    constraints: ""
+    read_only: true
+
+  board.marker_size:
+    type: double
+    default_value: 0.018
+    min_value: 0.0001
+    max_value: 10.0
+    step: 0.0
+    description: "ChArUco marker side length [m]."
+    constraints: "Must be smaller than the square size."
+    read_only: true
+
+  board.rows:
+    type: integer
+    default_value: 6
+    min_value: 2
+    max_value: 64
+    step: 1
+    description: "Board rows: inner corners per column (chessboard) or squares per column (ChArUco)."
+    constraints: "Chessboard: count INNER corners (squares - 1). ChArUco: count squares."
+    read_only: true
+
+  board.square_size:
+    type: double
+    default_value: 0.025
+    min_value: 0.0001
+    max_value: 10.0
+    step: 0.0
+    description: "Board square side length [m]."
+    constraints: "Measure the printed board, do not trust the nominal value."
+    read_only: true
+
+  board.type:
+    type: string
+    default_value: "chessboard"
+    description: "Calibration target type."
+    constraints: "'chessboard' or 'charuco'."
+    read_only: true
+
+  calib.distortion_model:
+    type: string
+    default_value: "plumb_bob"
+    description: "Pinhole distortion model."
+    constraints: "'plumb_bob' (k1, k2, p1, p2, k3) or 'rational_polynomial' (8 coefficients, wide lenses). Ignored for fisheye (equidistant)."
+    read_only: true
+
+  calib.fix_aspect_ratio:
+    type: bool
+    default_value: false
+    description: "Force fx = fy in the intrinsic matrix K."
+    constraints: "Pinhole only."
+    read_only: true
+
+  calib.fix_k3:
+    type: bool
+    default_value: true
+    description: "Keep k3 at zero (recommended for normal-FOV lenses to avoid overfitting)."
+    constraints: "Pinhole plumb_bob only."
+    read_only: true
+
+  calib.fix_principal_point:
+    type: bool
+    default_value: false
+    description: "Keep the principal point at the image center."
+    constraints: "Not recommended: real principal points are rarely centered."
+    read_only: true
+
+  calib.max_views:
+    type: integer
+    default_value: 60
+    min_value: 10
+    max_value: 500
+    step: 1
+    description: "Maximum number of views used by the final solve; the most informative ones are selected."
+    constraints: "Solve time grows ~cubically with this value on OpenCV < 4.14."
+    read_only: true
+
+  calib.zero_tangent_dist:
+    type: bool
+    default_value: false
+    description: "Keep tangential distortion (p1, p2) at zero."
+    constraints: "Pinhole only."
+    read_only: true
+
+  camera.model:
+    type: string
+    default_value: "pinhole"
+    description: "Camera projection model."
+    constraints: "'pinhole' or 'fisheye' (equidistant)."
+    read_only: true
+
+  camera.name:
+    type: string
+    default_value: "camera"
+    description: "Camera name written in the calibration file."
+    constraints: "Must match the name expected by the camera driver (camera_info_manager)."
+    read_only: true
+
+  capture.keep_images:
+    type: bool
+    default_value: true
+    description: "Keep captured images (PNG-compressed in memory) so that the dataset can be saved."
+    constraints: ""
+    read_only: true
+
+  capture.max_samples:
+    type: integer
+    default_value: 150
+    min_value: 10
+    max_value: 1000
+    step: 1
+    description: "Maximum number of captured samples."
+    constraints: "Must be larger than capture.min_samples."
+    read_only: true
+
+  capture.min_samples:
+    type: integer
+    default_value: 12
+    min_value: 6
+    max_value: 500
+    step: 1
+    description: "Minimum number of samples before calibration is considered ready."
+    constraints: ""
+    read_only: true
+
+  capture.mode:
+    type: string
+    default_value: "auto"
+    description: "Sample capture mode."
+    constraints: "'auto' (every good frame is captured) or 'manual' (press Space)."
+    read_only: true
+
+  commit.service:
+    type: string
+    default_value: ""
+    description: "sensor_msgs/srv/SetCameraInfo service used by Commit."
+    constraints: "Empty: choose among discovered services in the GUI."
+    read_only: true
+
+  detection.max_pixels:
+    type: integer
+    default_value: 921600
+    min_value: 76800
+    max_value: 33177600
+    step: 1
+    description: "Chessboard detection runs on a copy downscaled to at most this many pixels; corners are refined at full resolution."
+    constraints: "Larger values find smaller boards but slow down detection."
+    read_only: true
+
+  gates.max_blur_px:
+    type: double
+    default_value: 3.0
+    min_value: 0.5
+    max_value: 50.0
+    step: 0.0
+    description: "Maximum black-to-white transition width of board edges [px]."
+    constraints: "Chessboard only."
+    read_only: true
+
+  gates.max_motion_px:
+    type: double
+    default_value: 1.5
+    min_value: 0.1
+    max_value: 100.0
+    step: 0.0
+    description: "Maximum mean corner motion between consecutive frames [px at 720p, scaled with the image diagonal]."
+    constraints: ""
+    read_only: true
+
+  gates.max_tilt_deg:
+    type: double
+    default_value: 60.0
+    min_value: 10.0
+    max_value: 89.0
+    step: 0.0
+    description: "Maximum board tilt with respect to the image plane [deg]."
+    constraints: ""
+    read_only: true
+
+  gates.min_novelty:
+    type: double
+    default_value: 0.15
+    min_value: 0.0
+    max_value: 2.0
+    step: 0.0
+    description: "Minimum distance from every stored sample in (position, size, tilt) space for a view to be captured."
+    constraints: "Views that cover an empty image region are always captured."
+    read_only: true
+
+  guidance.target_rel_ci:
+    type: double
+    default_value: 0.005
+    min_value: 0.0001
+    max_value: 0.5
+    step: 0.0
+    description: "Target relative 95% confidence interval of focal lengths and principal point."
+    constraints: ""
+    read_only: true
+
+  output.dir:
+    type: string
+    default_value: ""
+    description: "Directory where calibration runs are saved."
+    constraints: "Empty: <current directory>/calibrations."
+    read_only: true
+
+  rectify.alpha:
+    type: double
+    default_value: 0.0
+    min_value: 0.0
+    max_value: 1.0
+    step: 0.0
+    description: "Rectified image scaling: 0 keeps only valid pixels, 1 keeps every source pixel."
+    constraints: ""
+    read_only: true
+
+  rectify.fisheye_max_fov_deg:
+    type: double
+    default_value: 120.0
+    min_value: 10.0
+    max_value: 179.0
+    step: 0.0
+    description: "Maximum field of view kept in rectified fisheye images [deg]."
+    constraints: "Fisheye only."
+    read_only: true
+
+  rectify.policy:
+    type: string
+    default_value: "square"
+    description: "Monocular rectified projection (P) policy."
+    constraints: "'square' (fx'=fy'), 'aspect' (fx'/fy'=fx/fy), 'opencv' (legacy getOptimalNewCameraMatrix, fx', fy' scaled independently), 'k' (P = K)."
+    read_only: true
+
+  rectify.zero_disparity:
+    type: bool
+    default_value: true
+    description: "Stereo: give both rectified cameras the same principal point."
+    constraints: "Stereo only."
+    read_only: true
+
+  source.left_topic:
+    type: string
+    default_value: "/stereo/left/image_raw"
+    description: "Stereo left image base topic."
+    constraints: "With compressed transport, '/compressed' is appended."
+    read_only: true
+
+  source.mode:
+    type: string
+    default_value: "mono"
+    description: "Camera setup."
+    constraints: "'mono' or 'stereo'."
+    read_only: true
+
+  source.right_topic:
+    type: string
+    default_value: "/stereo/right/image_raw"
+    description: "Stereo right image base topic."
+    constraints: "With compressed transport, '/compressed' is appended."
+    read_only: true
+
+  source.sync_slop:
+    type: double
+    default_value: 0.02
+    min_value: 0.0
+    max_value: 1.0
+    step: 0.0
+    description: "Maximum stamp difference to pair stereo frames [s]."
+    constraints: "Stereo only."
+    read_only: true
+
+  source.topic:
+    type: string
+    default_value: "/camera/image_raw"
+    description: "Monocular image base topic."
+    constraints: "With compressed transport, '/compressed' is appended."
+    read_only: true
+
+  source.transport:
+    type: string
+    default_value: "raw"
+    description: "Image transport."
+    constraints: "'raw' (sensor_msgs/Image) or 'compressed' (sensor_msgs/CompressedImage). JPEG may bias corners."
+    read_only: true

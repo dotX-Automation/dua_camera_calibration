@@ -1,37 +1,33 @@
-#!/usr/bin/env python
-from setuptools import setup, find_packages
+from glob import glob
+import os
 
-PACKAGE_NAME = "camera_calibration"
+from setuptools import setup
+
+package_name = 'dua_camera_calibration'
 
 setup(
-    name=PACKAGE_NAME,
-    version='3.0.6',
-    packages=["camera_calibration", "camera_calibration.nodes"],
+    name=package_name,
+    version='4.0.0',
+    packages=[package_name],
     data_files=[
-    ('share/ament_index/resource_index/packages',
-      ['resource/' + PACKAGE_NAME]),
-    ('share/' + PACKAGE_NAME, ['package.xml']),
+        ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
+        ('share/' + package_name, ['package.xml']),
+        (os.path.join('share', package_name, 'launch'), glob('launch/*.launch.py')),
+        (os.path.join('share', package_name, 'config'), glob('config/*.yaml')),
+        ('share/' + package_name, [package_name + '/' + package_name + '_params.yaml'])
     ],
-    py_modules=[],
-    package_dir={'': 'src'},
-    install_requires=[
-        'setuptools',
-    ],
+    install_requires=['setuptools'],
     zip_safe=True,
-    author='James Bowman, Patrick Mihelich',
-    maintainer='Vincent Rabaud, Steven Macenski, Joshua Whitley',
-    maintainer_email='vincent.rabaud@gmail.com, stevenmacenski@gmail.com, whitleysoftwareservices@gmail.com',
-    keywords=['ROS2'],
-    description='Camera_calibration allows easy calibration of monocular or stereo cameras using a checkerboard calibration target .',
-    license='BSD',
-    tests_require=[
-        'pytest',
-        'requests'
-    ],
+    maintainer='dotX Automation s.r.l.',
+    maintainer_email='info@dotxautomation.com',
+    description='Interactive and offline calibration of monocular and stereo cameras.',
+    license='Apache-2.0',
+    extras_require={'test': ['pytest']},
     entry_points={
         'console_scripts': [
-            'cameracalibrator = camera_calibration.nodes.cameracalibrator:main',
-            'cameracheck = camera_calibration.nodes.cameracheck:main',
+            'dua_camera_calibration_app = dua_camera_calibration.dua_camera_calibration_app:main',
+            'dua_camera_calibration_cli = dua_camera_calibration.dua_camera_calibration_cli:main',
+            'synthetic_camera = dua_camera_calibration.synthetic_camera:main',
         ],
     },
 )

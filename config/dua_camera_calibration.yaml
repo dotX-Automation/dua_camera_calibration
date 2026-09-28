@@ -1,0 +1,57 @@
+/dua_camera_calibration:
+  ros__parameters:
+    board:
+      cols: 8
+      detector: classic
+      dictionary: DICT_5X5_100
+      legacy_pattern: false
+      marker_size: 0.018
+      rows: 6
+      square_size: 0.025
+      type: chessboard
+    calib:
+      distortion_model: plumb_bob
+      fix_aspect_ratio: false
+      fix_k3: true
+      fix_principal_point: false
+      max_views: 60
+      zero_tangent_dist: false
+    camera:
+      model: pinhole
+      name: camera
+    capture:
+      keep_images: true
+      max_samples: 150
+      min_samples: 12
+      mode: auto
+    commit:
+      service: ''
+    detection:
+      max_pixels: 921600
+    dua:
+      tf_server:
+        get_transform: false
+        transform_pose: false
+        wait_servers: false
+    gates:
+      max_blur_px: 3.0
+      max_motion_px: 1.5
+      max_tilt_deg: 60.0
+      min_novelty: 0.15
+    guidance:
+      target_rel_ci: 0.005
+    output:
+      dir: ''
+    rectify:
+      alpha: 0.0
+      fisheye_max_fov_deg: 120.0
+      policy: square
+      zero_disparity: true
+    source:
+      left_topic: /stereo/left/image_raw
+      mode: mono
+      right_topic: /stereo/right/image_raw
+      sync_slop: 0.02
+      topic: /camera/image_raw
+      transport: raw
+    use_sim_time: false
