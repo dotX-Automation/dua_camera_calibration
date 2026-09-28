@@ -6,3 +6,8 @@ log/*
 # Uncomment the following to avoid pushing personal configurations
 # .vscode/
 
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/

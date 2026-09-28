@@ -1,34 +1,28 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>camera_calibration</name>
-  <version>3.0.6</version>
-  <description>
-     ROS 2 package for easy camera calibration with a graphical user interface.
-  </description>
-
+  <name>dua_camera_calibration</name>
+  <version>4.0.0</version>
+  <description>Interactive and offline calibration of monocular and stereo cameras.</description>
   <maintainer email="info@dotxautomation.com">dotX Automation s.r.l.</maintainer>
-  <maintainer email="vincent.rabaud@gmail.com">Vincent Rabaud</maintainer>
-  <maintainer email="whitleysoftwareservices@gmail.com">Joshua Whitley</maintainer>
-  <maintainer email="jacob@openrobotics.org">Jacob Perron</maintainer>
-  <maintainer email="mfergs7@gmail.com">Michael Ferguson</maintainer>
-  <author>James Bowman</author>
-  <author>Patrick Mihelich</author>
+  <license>Apache-2.0</license>
 
-  <license>BSD-3-Clause</license>
-
-  <depend>cv_bridge</depend>
-  <depend>image_geometry</depend>
+  <depend>ament_index_python</depend>
+  <depend>dua_node_py</depend>
+  <depend>dua_qos_py</depend>
   <depend>message_filters</depend>
+  <depend>params_manager_py</depend>
+  <depend>python3-numpy</depend>
+  <depend>python3-yaml</depend>
+  <depend>python_qt_binding</depend>
   <depend>rclpy</depend>
-  <depend>std_srvs</depend>
+  <depend>rosbag2_py</depend>
   <depend>sensor_msgs</depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
   <test_depend>ament_pep257</test_depend>
   <test_depend>python3-pytest</test_depend>
-  <test_depend>python3-requests</test_depend>
 
   <export>
     <build_type>ament_python</build_type>
